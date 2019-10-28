@@ -7,8 +7,8 @@ var SavePassword = 'tutorials-raspberrypi.de';
 
 var connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
-    password : 'your-password',
+    user     : 'weather',
+    password : 'pasw',
     database : 'weather_station',
     debug    :  false,
     connectionLimit : 100
@@ -77,6 +77,7 @@ app.post('/esp8266_trigger', function(req, res){
                                 ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidtiy+');', function (error, results, fields) {
         if (error) {
             res.json({"code" : 403, "status" : "Error in connection database"});
+            console.out(error);
             return;
         }
         res.json({"code": 200});
