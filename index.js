@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 // Visualize
 app.get('/hours/:hours', function(req, res) {
-    var hours = req.hours;
+    var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
     var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where +
                      'UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
