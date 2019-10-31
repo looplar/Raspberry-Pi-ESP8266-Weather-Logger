@@ -25,6 +25,22 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Visualize
+app.get('/minutes', function(req, res) {
+    var hours = 10;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' MINUTE)';
+    var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where +
+                     'UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        results = JSON.stringify(results);
+        console.log(results);
+
+        res.render('index', { data: results });
+    });
+})
+// Visualize
 app.get('/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
