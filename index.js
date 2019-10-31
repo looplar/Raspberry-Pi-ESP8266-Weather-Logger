@@ -19,8 +19,6 @@ app.set('view engine', 'pug')
 app.use(express.static(__dirname + '/views'));
 app.use('/scripts', express.static(__dirname + '/node_modules/vis/dist/'));
 
-console.out(__dirname);
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
