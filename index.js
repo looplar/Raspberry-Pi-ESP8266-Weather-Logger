@@ -35,8 +35,6 @@ app.get('/hours', function(req, res) {
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
-        console.log(results);
-
         res.render('index', { data: results });
     });
 })
@@ -51,8 +49,6 @@ app.get('/hours/:hours', function(req, res) {
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
-        console.log(results);
-
         res.render('index', { data: results });
     });
 })
