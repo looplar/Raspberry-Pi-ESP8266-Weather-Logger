@@ -1,8 +1,8 @@
 html
   head
     title='Temperature Diagram'
-    script(src='scripts/vis.js')
-    link(href='scripts/vis.css', rel='stylesheet' type='text/css')
+    script(src='/scripts/vis.js')
+    link(href='/scripts/vis.css', rel='stylesheet' type='text/css')
     style.
       body, html {
         font-family: sans-serif;
@@ -14,7 +14,7 @@ html
       var items = !{data}
       items.map(function(e){e.x=new Date(e.x); return e;})
 
-      
+
       var groups = new vis.DataSet();
       groups.add({
         id: 'humid',
