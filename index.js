@@ -7,8 +7,8 @@ var SavePassword = 'tutorials-raspberrypi.de';
 
 var connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
-    password : 'your-password',
+    user     : 'weather',
+    password : 'pasw',
     database : 'weather_station',
     debug    :  false,
     connectionLimit : 100
@@ -24,65 +24,77 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+// Visualize
+app.get('/hours/:hours', function(req, res) {
+    var hours = req.hours;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
+    var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where +
+                     'UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        results = JSON.stringify(results);
+
+        res.render('index', { data: results });
+    });
+})
 
 // Visualize
 app.get('/', function(req, res) {
-    
-    
-    
     // get data from database
-    connection.query('SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + 
+    connection.query('SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' +
                      'UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature', function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
-        
+
         res.render('index', { data: results });
     });
-
 })
 
 // Send data
 app.post('/esp8266_trigger', function(req, res){
-    
+
     var sender_id, temperature, humidity;
-    
+
     if (!req.body.hasOwnProperty("password") || req.body.password != SavePassword) {
         res.json({"code" : 403, "error": "Password incorrect / missing"});
         return;
     }
-    
+
     if (!req.body.hasOwnProperty("sender_id") || req.body.sender_id == "") {
         res.json({"code" : 403, "error": "Sender ID missing"});
         return;
     } else {
         sender_id = req.body.sender_id;
     }
-    
+
     if (!req.body.hasOwnProperty("temperature") || parseFloat(req.body.temperature) == NaN) {
         res.json({"code" : 403, "error": "Temperature Value missing"});
         return;
     } else {
         temperature = parseFloat(req.body.temperature);
     }
-    
+
     if (!req.body.hasOwnProperty("humidity") || parseFloat(req.body.humidity) == NaN) {
         res.json({"code" : 403, "error": "Humidity Value missing"});
         return;
     } else {
         humidtiy = parseFloat(req.body.humidity);
     }
- 
+
     // save
     var query = connection.query('INSERT INTO temperature VALUES ' +
                                 ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidtiy+');', function (error, results, fields) {
         if (error) {
             res.json({"code" : 403, "status" : "Error in connection database"});
+            console.out(error);
             return;
         }
         res.json({"code": 200});
     });
-    
-    
+
+
 });
 
 app.listen(app.get('port'));
