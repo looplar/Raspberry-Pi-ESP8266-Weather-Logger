@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Visualize
-app.get('/hours', function(req, res) {
-    var hours = 10;
+app.get('/hours/:hours', function(req, res) {
+    var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
     var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where +
                      ' UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
@@ -38,12 +38,26 @@ app.get('/hours', function(req, res) {
         res.render('index', { data: results });
     });
 })
+
 // Visualize
-app.get('/hours/:hours', function(req, res) {
+app.get('/temp/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
-    var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where +
-                     ' UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
+    var query = 'SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        results = JSON.stringify(results);
+        res.render('index', { data: results });
+    });
+})
+
+// Visualize
+app.get('/hum/hours/:hours', function(req, res) {
+    var hours = req.params.hours;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
+    var query = 'SELECT datum x, humidity y, sender_id, \'humidity\' `group` FROM temperature ' + where;
     console.log(query);
     // get data from database
     connection.query(query, function (error, results, fields) {
