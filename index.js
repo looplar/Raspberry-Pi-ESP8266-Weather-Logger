@@ -40,6 +40,19 @@ app.get('/hours/:hours', function(req, res) {
 })
 
 // Visualize
+app.get('/highcharts', function(req, res) {
+    var hours = 1;//req.params.hours;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
+    var query = 'SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        results = JSON.stringify(results);
+        res.render('highcharts', { data: results });
+    });
+})
+// Visualize
 app.get('/temp/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
