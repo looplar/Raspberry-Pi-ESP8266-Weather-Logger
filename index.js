@@ -2,7 +2,6 @@ var express     = require('express');
 var mysql       = require('mysql');
 var app         = express();
 var bodyParser  = require('body-parser');
-var Highcharts  = require('highcharts');
 
 var SavePassword = 'tutorials-raspberrypi.de';
 
@@ -50,7 +49,7 @@ app.get('/highcharts', function(req, res) {
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
-        res.render('highcharts', { data: results, Highcharts: Highcharts });
+        res.render('highcharts', { data: results});
     });
 })
 // Visualize
@@ -88,7 +87,7 @@ app.get('/', function(req, res) {
                      'UNION SELECT datum x, temp y, sender_id, \'temp\' `group` FROM temperature', function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
-
+        console.log(result);
         res.render('index', { data: results });
     });
 })
