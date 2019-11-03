@@ -16,6 +16,9 @@ html
             var items = !{data}
             items.map(function(e){e.x=new Date(e.x); return e;})
             Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'x'
+                },
                 title: {
                     text: 'Messwerte'
                 },
@@ -30,9 +33,7 @@ html
                     }
                 },
                 legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
+                    enabled: false
                 },
                 plotOptions: {
                     series: {
