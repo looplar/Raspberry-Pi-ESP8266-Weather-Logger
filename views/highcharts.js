@@ -16,7 +16,7 @@ Highcharts.chart('container', {
         xAxis: {
             type: 'datetime'
         }
-    }
+    },
     legend: {
         layout: 'vertical',
         align: 'right',
