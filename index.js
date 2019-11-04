@@ -49,6 +49,7 @@ app.get('/highcharts/temp/hours/:hours', function(req, res) {
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         results = JSON.stringify(results);
+        console.log(results);
         res.render('highcharts', { data: results});
     });
 })
