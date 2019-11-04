@@ -14,7 +14,7 @@ html
         script.
           //include highcharts.js
             var items = !{data}
-            items.map(function(e){e.x=new Date(e.x).getTime(); return e;})
+            items.map(function(e){e.x=new Date(e.x); return e;})
             Highcharts.chart('container', {
                 chart: {
                     zoomType: 'x'
@@ -28,9 +28,12 @@ html
                     }
                 },
                 xAxis: {
-                    xAxis: {
-                        type: 'datetime'
-                    },
+                    type: 'datetime'
+                    dateTimeLabelFormats: {
+                        day: "%e. %b",
+                        month: "%b '%y",
+                        year: "%Y"
+                    }
                 },
                 legend: {
                     enabled: false
