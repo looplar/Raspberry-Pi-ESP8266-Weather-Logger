@@ -53,6 +53,19 @@ app.get('/highcharts/temp/hours/:hours', function(req, res) {
         res.render('highcharts', { data: results});
     });
 })
+app.get('/highcharts/hum/hours/:hours', function(req, res) {
+    var hours = req.params.hours;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
+    var query = 'SELECT datum x, hum y FROM humidity ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        results = JSON.stringify(results);
+        console.log(results);
+        res.render('highcharts', { data: results});
+    });
+})
 // Visualize
 app.get('/temp/hours/:hours', function(req, res) {
     var hours = req.params.hours;
