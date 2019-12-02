@@ -56,7 +56,7 @@ app.get('/highcharts/temp/hours/:hours', function(req, res) {
 app.get('/highcharts/hum/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
-    var query = 'SELECT datum x, hum y FROM humidity ' + where;
+    var query = 'SELECT datum x, humidity y FROM temperature ' + where;
     console.log(query);
     // get data from database
     connection.query(query, function (error, results, fields) {
