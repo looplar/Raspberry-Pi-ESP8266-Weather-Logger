@@ -170,7 +170,7 @@ app.post('/esp8266_trigger', function(req, res){
 
     // save
     var query = connection.query('INSERT INTO temperature VALUES ' +
-                                ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humiditiy+', '+dewpoint+');', function (error, results, fields) {
+                                ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidity+', '+dewpoint+');', function (error, results, fields) {
         if (error) {
             res.json({"code" : 403, "status" : "Error in connection database"});
             console.log(error);
