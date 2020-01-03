@@ -14,6 +14,11 @@ var connection = mysql.createConnection({
     connectionLimit : 100
 });
 
+var  dewpoint = require('dewpoint');
+ 
+// 40 m above sea level
+var xdp = new dewpoint(40);
+ 
 app.set('port', (process.env.PORT || 8000))
 app.set('view engine', 'pug')
 app.use(express.static(__dirname + '/views'));
@@ -54,6 +59,20 @@ app.get('/highcharts/temp/hours/:hours', function(req, res) {
     });
 })
 app.get('/highcharts/hum/hours/:hours', function(req, res) {
+    var hours = req.params.hours;
+    var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
+    var query = 'SELECT datum x, humidity y FROM temperature ' + where;
+    console.log(query);
+    // get data from database
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+        results = JSON.stringify(results);
+        console.log(results);
+        res.render('highcharts', { data: results});
+    });
+})
+app.get('/highcharts/dew/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
     var query = 'SELECT datum x, humidity y FROM temperature ' + where;
