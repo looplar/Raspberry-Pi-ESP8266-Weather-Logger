@@ -153,7 +153,7 @@ app.post('/esp8266_trigger', function(req, res){
         res.json({"code" : 403, "error": "Humidity Value missing"});
         return;
     } else {
-        humiditiy = parseFloat(req.body.humidity);
+        humidity = parseFloat(req.body.humidity);
     }
 
     dewpoint = xdp.Calc(temperature, humidity).dp;
