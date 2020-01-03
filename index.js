@@ -159,6 +159,7 @@ app.post('/esp8266_trigger', function(req, res){
     dewpoint = xdp.Calc(temperature, humidity).dp;
     console.log(dewpoint);
     var y = xdp.Calc(t, rh);
+    console.log(y);
     dewpoint = y.dp;
        console.log(dewpoint);
  
