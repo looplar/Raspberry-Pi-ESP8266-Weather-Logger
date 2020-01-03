@@ -156,7 +156,7 @@ app.post('/esp8266_trigger', function(req, res){
         humidtiy = parseFloat(req.body.humidity);
     }
 
-    dewpoint = xdp.Calc(t, rh).dp;
+    dewpoint = xdp.Calc(temperature, humidity).dp;
 
     // save
     var query = connection.query('INSERT INTO temperature VALUES ' +
