@@ -160,6 +160,7 @@ app.post('/esp8266_trigger', function(req, res){
     console.log(dewpoint);
     if (dewpoint == NaN) {
         dewpoint = 0.0;
+        console.log(dewpoint);
     }
 
     // save
