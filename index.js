@@ -157,17 +157,7 @@ app.post('/esp8266_trigger', function(req, res){
     }
 
     dewpoint = xdp.Calc(temperature, humidity).dp;
-    console.log(dewpoint);
-    var y = xdp.Calc(temperature, humidity);
-    console.log(y);
-    dewpoint = y.dp;
-       console.log(dewpoint);
- 
- {
-        dewpoint = 0.0;
-        console.log(dewpoint);
-    }
-
+    
     // save
     var query = connection.query('INSERT INTO temperature VALUES ' +
                                 ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidity+', '+dewpoint+');', function (error, results, fields) {
