@@ -158,7 +158,7 @@ app.post('/esp8266_trigger', function(req, res){
 
     dewpoint = xdp.Calc(temperature, humidity).dp;
     console.log(dewpoint);
-    if (parseFloat(req.body.humidity) == NaN) {
+    if (dewpoint == NaN) {
         dewpoint = 0.0;
     }
 
