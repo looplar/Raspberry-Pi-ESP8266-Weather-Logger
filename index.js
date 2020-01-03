@@ -163,7 +163,7 @@ app.post('/esp8266_trigger', function(req, res){
                                 ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidtiy+', '+dewpoint+');', function (error, results, fields) {
         if (error) {
             res.json({"code" : 403, "status" : "Error in connection database"});
-            console.out(error);
+            console.log(error);
             return;
         }
         res.json({"code": 200});
