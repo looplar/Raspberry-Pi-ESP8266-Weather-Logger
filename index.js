@@ -75,7 +75,7 @@ app.get('/highcharts/hum/hours/:hours', function(req, res) {
 app.get('/highcharts/dew/hours/:hours', function(req, res) {
     var hours = req.params.hours;
     var where = 'where datum >= DATE_SUB(NOW(),INTERVAL ' + hours + ' HOUR)';
-    var query = 'SELECT datum x, humidity y FROM temperature ' + where;
+    var query = 'SELECT datum x, dewpoint y FROM temperature ' + where;
     console.log(query);
     // get data from database
     connection.query(query, function (error, results, fields) {
@@ -128,7 +128,7 @@ app.get('/', function(req, res) {
 // Send data
 app.post('/esp8266_trigger', function(req, res){
 
-    var sender_id, temperature, humidity;
+    var sender_id, temperature, humidity, dewpoint;
 
     if (!req.body.hasOwnProperty("password") || req.body.password != SavePassword) {
         res.json({"code" : 403, "error": "Password incorrect / missing"});
@@ -156,9 +156,11 @@ app.post('/esp8266_trigger', function(req, res){
         humidtiy = parseFloat(req.body.humidity);
     }
 
+    dewpoint = xdp.Calc(t, rh).dp;
+
     // save
     var query = connection.query('INSERT INTO temperature VALUES ' +
-                                ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidtiy+');', function (error, results, fields) {
+                                ' (DEFAULT, '+mysql.escape(sender_id)+', NOW(), '+temperature+', '+humidtiy+', '+dewpoint+');', function (error, results, fields) {
         if (error) {
             res.json({"code" : 403, "status" : "Error in connection database"});
             console.out(error);
