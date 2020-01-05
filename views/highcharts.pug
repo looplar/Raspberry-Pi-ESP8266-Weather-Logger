@@ -11,12 +11,8 @@ html
             }
     body
         button.btn.btn-sm(onclick="window.location.href = '/highcharts/dew/hours/100';") dewpoint
-        <button type="submit" onclick="window.location.href = '/highcharts/dew/hours/100';">dewpoint</button>
-        a(href="/highcharts/dew/hours/100") dewpoint
-        p   
-        a(href="/highcharts/temp/hours/100") temp
-        p   
-        a(href="/highcharts/hum/hours/100") humidity
+        button.btn.btn-sm(onclick="window.location.href = '/highcharts/temp/hours/100';") temperature
+        button.btn.btn-sm(onclick="window.location.href = '/highcharts/hum/hours/100';") humidity
         div#container
         script.
           //include highcharts.js
